@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="opib-bam-sync" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+	http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd"
+	version="1.0">
+	<properties></properties>
+
+	<step id="fetch-open-orders-delta" next="init-status-sync">
+		<chunk item-count="50">
+			<reader ref="siebelOpenOrderReader" />
+			<processor ref="siebelOpenOrderProcessor" />
+			<writer ref="siebelOpenOrderWriter" />
+		</chunk>
+	</step>
+
+	<step id="init-status-sync" next="bam-onecrm-status-sync">
+		<batchlet ref="populateJobOperatorBatchelet" />
+	</step>
+
+	<step id="bam-onecrm-status-sync" next="bam-fusion-status-sync">
+		<properties>
+			<property name="targetSystem" value="SIEBEL" />
+		</properties>
+		<batchlet ref="statusUpdateBatchelet">
+		</batchlet>
+	</step>
+
+	<step id="bam-fusion-status-sync" next="bam-cordys-status-sync">
+		<properties>
+			<property name="targetSystem" value="FUSION" />
+		</properties>
+		<batchlet ref="statusUpdateBatchelet">
+		</batchlet>
+	</step>
+
+
+	<step id="bam-cordys-status-sync" next="reset_acknowledgement">
+		<properties>
+			<property name="targetSystem" value="CORDYS" />
+		</properties>
+		<batchlet ref="statusUpdateBatchelet">
+
+		</batchlet>
+	</step>
+
+	<step id="reset_acknowledgement" next="build-order-cache">
+		<batchlet ref="resetAcknowledgementsBatchelet">
+		</batchlet>
+	</step>
+
+	<step id="build-order-cache">
+		<batchlet ref="cacheBuilderBatchelet" />
+	</step>
+
+	<!-- TODO Decide on Archive strategy -->
+</job>

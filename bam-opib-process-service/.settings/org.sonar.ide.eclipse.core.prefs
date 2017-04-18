@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+extraProperties=sonar.dynamicAnalysis\=reuseReports\r\nsonar.java.coveragePlugin\=jacoco\r\nsonar.language\=java\r\nsonar.jacoco.reportPath\=C\:\\Users\\nikam500\\latestWorkspce\\bam-opib-parent\\bam-opib-process-service/../target/jacoco.exec
+projectKey=com.kpn\:bam-opib-process-service
+serverUrl=http\://localhost\:9000
+version=2

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job id="opib-bam-heatmap-sync" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+	http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd"
+	version="1.0">
+<!-- 
+	<step id="fetch-heat-map-Status" next="init-bam-heat-map-status-sync">
+		 <batchlet ref="initHeatMapBatchelet" />
+	</step> -->
+	
+	<step id="init-bam-heat-map-status-sync" >	  
+        <batchlet ref="heatMapNodeStatusBatchelet" />
+    </step>
+
+</job>
